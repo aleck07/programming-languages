@@ -8,10 +8,29 @@ load_lines(Filename) ->
     Lines.
 
 save_lines(Filename, Lines) ->
-    file:write_file("dialogue.txt", Lines).
+    file:write_file(Filename, Lines).
     
 has_dialogue(Line) ->
-    if 
+    case re:run(Line, "\".*\"") of
+        {match, _} -> true;
+        nomatch    -> false
+    end.
+
+join_lines([H]) ->
+    H;
+join_lines([H | T]) ->
+    Rest = join_lines(T),
+    <<H/binary, "\n", Rest/binary>>.
+
+
+filter_dialogue([]) -> [];
+filter_dialogue([H | T]) ->
+    case has_dialogue(H) of
+        true  -> [H | filter_dialogue(T)];
+        false -> filter_dialogue(T)
+    end.
+
 main() ->
     Lines = load_lines("ica1_data.txt"),
-    save_lines(Lines).
+    FilteredLines = filter_dialogue(Lines),
+    save_lines("dialogue.txt", join_lines(FilteredLines)).
