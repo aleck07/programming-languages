@@ -9,11 +9,11 @@ load_lines(Filename) ->
 
 save_lines(Filename, Lines) ->
     file:write_file(Filename, Lines).
-    
+
 has_dialogue(Line) ->
     case re:run(Line, "\".*\"") of
         {match, _} -> true;
-        nomatch    -> false
+        nomatch -> false
     end.
 
 join_lines([H]) ->
@@ -22,11 +22,11 @@ join_lines([H | T]) ->
     Rest = join_lines(T),
     <<H/binary, "\n", Rest/binary>>.
 
-
-filter_dialogue([]) -> [];
+filter_dialogue([]) ->
+    [];
 filter_dialogue([H | T]) ->
     case has_dialogue(H) of
-        true  -> [H | filter_dialogue(T)];
+        true -> [H | filter_dialogue(T)];
         false -> filter_dialogue(T)
     end.
 
