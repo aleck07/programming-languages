@@ -1,2 +1,2 @@
-erlc sum.erl 
-erl - noshell -s sum main -s init stop
+erlc flat.erl 
+erl - noshell -s flat main -s init stop
