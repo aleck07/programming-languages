@@ -31,8 +31,9 @@ most_common(Freqs) ->
     List = maps:to_list(Freqs),
     lists:foldl(
         fun({Key, Count}, {BestKey, BestCount}) ->
-            if Count > BestCount -> {Key, Count};
-               true -> {BestKey, BestCount}
+            if
+                Count > BestCount -> {Key, Count};
+                true -> {BestKey, BestCount}
             end
         end,
         {1, 0},
