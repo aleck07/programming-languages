@@ -18,9 +18,9 @@ pair_frequencies(Rolls) ->
     Pairs = lists:zip(lists:droplast(Rolls), tl(Rolls)),
     lists:foldl(
         fun({R1, R2}, Acc) ->
-            Pair = {R1, R2},
-            Count = maps:get(Pair, Acc, 0),
-            maps:put(Pair, Count + 1, Acc)
+            Inner = maps:get(R1, Acc, #{}),
+            Count = maps:get(R2, Inner, 0),
+            maps:put(R1, maps:put(R2, Count + 1, Inner), Acc)
         end,
         #{},
         Pairs
@@ -40,13 +40,22 @@ most_common(Freqs) ->
     ).
 
 main() ->
-    %% Generate a list of N random rolls (1.. K )
     N = 1000,
     K = 6,
     Rolls = [rand:uniform(K) || _ <- lists:seq(1, N)],
     Freqs = roll_frequencies(Rolls),
-    io:format("Roll frequencies: ~p~n", [Freqs]),
+    lists:foreach(
+        fun({Face, Count}) ->
+            io:format("~p was rolled ~p times~n", [Face, Count])
+        end,
+        lists:sort(maps:to_list(Freqs))
+    ),
     PairFreqs = pair_frequencies(Rolls),
-    io:format("Pair frequencies: ~p~n", [PairFreqs]),
-    MostCommonRoll = most_common(Freqs),
-    io:format("Most common roll: ~p~n", [MostCommonRoll]).
+    lists:foreach(
+        fun(Face) ->
+            Inner = maps:get(Face, PairFreqs, #{}),
+            {NextFace, NextCount} = most_common(Inner),
+            io:format("~p, most common next roll is ~p (~p times)~n", [Face, NextFace, NextCount])
+        end,
+        lists:seq(1, K)
+    ).
