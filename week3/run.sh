@@ -1,2 +1,2 @@
-erlc flat.erl 
-erl - noshell -s flat main -s init stop
+# erlc fib.erl 
+erl -noshell -s fib main -s init stop
