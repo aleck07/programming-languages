@@ -1,6 +1,6 @@
 -module(stack).
 % -export([new/1, push/2, pop/1, get/2, set/3, remove/2, print_td/1, print_bu/1]).
--export([new/1, print_td/1, print_bu/1, push/2, pop/1]).
+-export([new/1, print_td/1, print_bu/1, push/2, pop/1, get/2, set/3]).
 
 new([]) -> empty;
 new([H | T]) -> {H, new(T)}.
@@ -15,8 +15,29 @@ print_bu({H, T}) ->
     print_bu(T),
     io:format("~p~n", [H]).
 
-push(empty, X) -> {X, empty};
-push({H, T}, X) -> {X, {H, T}}.
+push(Stack, Val) -> {Val, Stack}.
 
-pop(empty) -> empty;
-pop({_, T}) -> T.
+pop({H, T}) -> {H, T}.
+
+get_helper(Stack, 0) ->
+    {Val, _} = pop(Stack),
+    Val;
+
+get_helper(Stack, I) ->
+    {_, T} = pop(Stack),
+    get_helper(T, I - 1).
+
+get(Stack, I) ->
+    get_helper(Stack, I).
+
+set_helper(Stack, 0, Val) ->
+    {_, T} = pop(Stack),
+    push(T, Val);
+
+set_helper(Stack, I, Val) ->
+    {H, T} = pop(Stack),
+    Dummy = set_helper(T, I - 1, Val),
+    push(Dummy, H).
+
+set(Stack, I, Val) ->
+    set_helper(Stack, I, Val).
