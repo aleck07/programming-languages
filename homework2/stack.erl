@@ -17,41 +17,47 @@ print_bu({H, T}) ->
 
 push(Stack, Val) -> {Val, Stack}.
 
-pop(empty) -> error;
+pop(empty) -> erlang:error(empty_stack);
 pop({H, T}) -> {H, T}.
 
-get_helper(Stack, 0) ->
+get_helper(Stack, 0, _) ->
     {Val, _} = pop(Stack),
     Val;
 
-get_helper(Stack, I) ->
-    {_, T} = pop(Stack),
-    get_helper(T, I - 1).
+get_helper(Stack, I, Acc) ->
+    {H, T} = pop(Stack),
+    get_helper(T, I - 1, push(Acc, H)).
 
 get(Stack, I) ->
-    get_helper(Stack, I).
+    get_helper(Stack, I, empty).
 
-set_helper(Stack, 0, Val) ->
+
+set_helper(Stack, 0, Val, Acc) ->
     {_, T} = pop(Stack),
-    push(T, Val);
+    NewStack = push(T, Val),
+    push_all(NewStack, Acc);
 
-set_helper(Stack, I, Val) ->
+set_helper(Stack, I, Val, Acc) ->
     {H, T} = pop(Stack),
-    Dummy = set_helper(T, I - 1, Val),
-    push(Dummy, H).
+    set_helper(T, I - 1, Val, push(Acc, H)).
+
+push_all(Stack, empty) -> Stack;
+push_all(Stack, Acc) ->
+    {H, T} = pop(Acc),
+    push_all(push(Stack, H), T).
 
 set(Stack, I, Val) ->
-    set_helper(Stack, I, Val).
+    set_helper(Stack, I, Val, empty).
 
-remove_helper(Stack, 0) ->
+
+remove_helper(Stack, 0, Acc) ->
     {Val, T} = pop(Stack),
-    {Val, T};
+    {Val, push_all(T, Acc)};
 
-remove_helper(Stack, I) ->
+remove_helper(Stack, I, Acc) ->
     {H, T} = pop(Stack),
-    {Val, NewT} = remove_helper(T, I - 1),
-    {Val, push(NewT, H)}.
-
+    remove_helper(T, I - 1, push(Acc, H)).
 
 remove(Stack, I) ->
-    remove_helper(Stack, I).
+    remove_helper(Stack, I, empty).
+
