@@ -17,6 +17,7 @@ print_bu({H, T}) ->
 
 push(Stack, Val) -> {Val, Stack}.
 
+pop(empty) -> error;
 pop({H, T}) -> {H, T}.
 
 get_helper(Stack, 0) ->
