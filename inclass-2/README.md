@@ -24,4 +24,4 @@ The `dice.erl`
 ```
 
 ## Citations
-Claude helped explain how some functions should work and guided me with how some library functions work such as `foldl`.
+Claude helped explain how some functions should work and guided me with how some library functions work such as `foldl` and `zip`.
