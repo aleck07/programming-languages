@@ -1,2 +1,2 @@
-# erlc fibn.erl
-erl -noshell -s fibn main -s init stop
+# erlc lcs.erl
+erl -noshell -s lcs main -s init stop
