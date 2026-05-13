@@ -57,7 +57,6 @@ generate_title(Seed, Bigrams, Max) ->
     Words = gen_words(Seed, Bigrams, Max, #{Seed => true}, [Seed]),
     iolist_to_binary(lists:join(<<" ">>, Words)).
 
-% base condition
 gen_words(_, _, 0, _, Acc) -> lists:reverse(Acc);
 
 gen_words(Word, Bigrams, Max, Used, Acc) ->
