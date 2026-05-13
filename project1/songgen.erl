@@ -57,6 +57,7 @@ generate_title(Seed, Bigrams, Max) ->
     Words = gen_words(Seed, Bigrams, Max, #{Seed => true}, [Seed]),
     iolist_to_binary(lists:join(<<" ">>, Words)).
 
+% base condition
 gen_words(_, _, 0, _, Acc) -> lists:reverse(Acc);
 
 gen_words(Word, Bigrams, Max, Used, Acc) ->
@@ -66,8 +67,6 @@ gen_words(Word, Bigrams, Max, Used, Acc) ->
         _ when is_map_key(Next, Used)  -> lists:reverse(Acc);
         _                              -> gen_words(Next, Bigrams, Max - 1, maps:put(Next, true, Used), [Next | Acc])
     end.
-
-% preprocess() ->
 
 main() ->
     {ok, Data} = file:read_file("tracks.txt"),
