@@ -54,8 +54,8 @@ grandparent(GP, GC) :- parent(GP, GPC), parent(GPC, GC).
 sibling(A, B) :- parent(P, A), parent(P, B).
 
 % ancestor(Anc, Desc)
-ancestor(A, D) :- parent(A, X).
+ancestor(A, D) :- parent(A, D).
 ancestor(A, D) :- parent(A, X), ancestor(X, D).
 
 % descendants(Person, List)
-% descendants(P, L) :- ...
+descendants(P, L) :- findall(D, ancestor(P, D), L).
