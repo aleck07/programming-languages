@@ -1,6 +1,5 @@
 -module(songgen) .
 -export([extract_title/1, remove_superfluous/1, remove_punctuation/1, remove_non_english/1, preprocess/1]).
--export([main/0]).
 -export([build_bigrams/1, next_word/2, generate_title/3]).
 
 remove_superfluous(Title) ->
@@ -67,14 +66,4 @@ gen_words(Word, Bigrams, Max, Used, Acc) ->
         _                              -> gen_words(Next, Bigrams, Max - 1, maps:put(Next, true, Used), [Next | Acc])
     end.
 
-main() ->
-    {ok, Data} = file:read_file("tracks.txt"),
-    Lines = binary:split(Data, <<"\n">>, [global, trim_all]),
-    AllTitles = lists:map(fun preprocess/1, Lines),
-    CleanTitles = [T || T <- AllTitles, T =/= <<>>],
-    io:format("Extracted Titles: ~p~n", [CleanTitles]),
-    Bigrams = build_bigrams(CleanTitles),
-    io:format("~p~n", [Bigrams]),
-    Seed = <<"love">>,
-    GeneratedTitle = generate_title(Seed, Bigrams, 5),
-    io:format("Generated Title: ~p~n", [GeneratedTitle]).
+

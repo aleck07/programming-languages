@@ -1,2 +1,2 @@
-erlc songgen.erl
-erl -noshell -s songgen main -s init stop
+erlc songgen.erl main.erl
+erl -noshell -s main main -s init stop
