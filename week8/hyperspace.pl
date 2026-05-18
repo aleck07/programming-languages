@@ -30,7 +30,7 @@ connected(A, B) :- route(A, B).
 connected(A, B) :- route(B, A).
 
 % path_helper(Start, End, Path, Visited)
-path_helper(Start, End, [Start, End], _Visited) :- connected(Start, End).
+path_helper(End, End, [End], _).
 path_helper(Start, End, [Start | Path], Visited) :- connected(Start, Next), \+ member(Next, Visited), path_helper(Next, End, Path, [Start | Visited]).
 
 % path(Start, End, Path)
