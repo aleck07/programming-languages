@@ -26,12 +26,19 @@ route(santraginus_v,      damogran).
 % =====================================================
 
 % connected(A, B)
-% connected(A, B) :- ...
-% connected(A, B) :- ...
+connected(A, B) :- route(A, B).
+connected(A, B) :- route(B, A).
+
+% path_helper(Start, End, Path, Visited)
+path_helper(Start, End, [Start, End], _Visited) :- connected(Start, End).
+path_helper(Start, End, [Start | Path], Visited) :- connected(Start, Next), \+ member(Next, Visited), path_helper(Next, End, Path, [Start | Visited]).
 
 % path(Start, End, Path)
 % (use a helper predicate with a visited-list accumulator)
+path(Start, End, Path) :- path_helper(Start, End, Path, []).
 
 % reachable(Start, End)
+reachable(Start, End) :- path(Start, End, _).
 
 % shortest_path(Start, End, Path)
+shortest_path(Start, End, Path) :- findall(L-P, (path(Start, End, P), length(P, L)), Pairs), keysort(Pairs, [_-Path|_]).
