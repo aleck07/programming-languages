@@ -8,8 +8,8 @@ new([H | T]) ->
     {H, new(T)}.
 
 %% Push a value onto the top of the stack.
-push(Stack, _Value) ->
-    Stack. %% value isn't being used?
+push(Stack, Value) ->
+    {Value, Stack}. %% value isn't being used?
 
 %% Pop the top element. Returns {Value, NewStack}.
 pop(empty) ->
@@ -34,8 +34,8 @@ set(Stack, I, NewValue) ->
 
 set(empty, _, _NewValue, _Helper) ->
     erlang:error(index_out_of_bounds);
-set({_OldValue, _Rest}, 0, NewValue, Helper) ->
-    rebuild(Helper, {NewValue, empty});
+set({_OldValue, Rest}, 0, NewValue, Helper) ->
+    rebuild(Helper, {NewValue, {Rest}}); %% Not rebuilding with rest of list
 set({Value, Rest}, I, NewValue, Helper) ->
     set(Rest, I - 1, NewValue, {Value, Helper}).
 
@@ -67,6 +67,6 @@ print_td({Value, Rest}) ->
 %% Print bottom-up recursively.
 print_bu(empty) ->
     ok;
-print_bu({Value, Rest}) ->
-    io:format("~p~n", [Value]),
-    print_bu(Rest).
+print_bu({Value, Rest}) -> %% Printing top-down BUGGGG!!!!
+    print_bu(Rest),
+    io:format("~p~n", [Value]).
