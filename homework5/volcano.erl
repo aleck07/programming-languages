@@ -34,15 +34,14 @@ loader_loop([Line | Rest], Acc) ->
             loader_loop(Rest, [Volcano | Acc])
     end.
 
-
 load_volcanoes(File) ->
     {ok, Data} = file:read_file(File),
     Lines = binary:split(Data, <<"\n">>, [global]),
     loader_loop(Lines, []).
 
+erupted_since(Volcanoes, Year) ->
+    
 
 main()->
-    NewVolcano = new_volcano(<<"Mount Vesuvius">>, 1281, 79, high),
-    % io:format("New Volcano: ~p~n", [NewVolcano]),
     LoadedVolcanoes = load_volcanoes("hw5_data.csv"),
     io:format("Loaded Volcanoes: ~p~n", [LoadedVolcanoes]).
