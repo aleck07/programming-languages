@@ -29,14 +29,14 @@ contains(empty, _Key) ->
     false;
 contains({node, K, _L, _R}, Key) when Key =:= K ->
     true;
-contains({node, K, L, _R}, Key) when Key > K ->
+contains({node, K, L, _R}, Key) when Key < K -> % Swap to less than
     contains(L, Key);
-contains({node, K, _L, R}, Key) when Key < K ->
+contains({node, K, _L, R}, Key) when Key > K -> % Swap to greater than
     contains(R, Key).
 
 %% Number of nodes in the tree.
 size(empty) ->
-    1;
+    0;      % change to zero maybe?
 size({node, _, L, R}) ->
     1 + size(L) + size(R).
 
@@ -56,7 +56,7 @@ max({node, _, _, R}) ->
 to_list(empty) ->
     [];
 to_list({node, K, L, R}) ->
-    to_list(R) ++ [K] ++ to_list(L).
+    to_list(L) ++ [K] ++ to_list(R). % Switch the R and the L
 
 %% Height of the tree. Empty tree has height -1, a single node has height 0.
 height(empty) ->
