@@ -55,10 +55,29 @@ total_elevation([Volcano | Rest], Sum) ->
 total_elevation(Volcanoes) ->
     total_elevation(Volcanoes, 0).
 
+insert(Volcano, [], WalkedList) -> WalkedList ++ [Volcano];
+insert(Volcano, [Element | Rest], WalkedList) ->
+    case elevation(Volcano) < elevation(Element) of
+        true -> WalkedList ++ [Volcano] ++ [Element] ++ Rest;
+        false -> insert(Volcano, Rest, WalkedList ++ [Element])
+    end.
+insert(Volcano, SortedList) ->
+    insert(Volcano, SortedList, []).
+
+sort_by_elevation([], SortedList) -> SortedList;
+sort_by_elevation([Volcano | Rest], SortedList) ->
+    InsertedList = insert(Volcano, SortedList),
+    sort_by_elevation(Rest, InsertedList).
+
+sort_by_elevation([Volcano | Rest]) ->
+    sort_by_elevation(Rest, [Volcano]).
+
 main()->
     LoadedVolcanoes = load_volcanoes("hw5_data.csv"),
     io:format("Loaded Volcanoes: ~p~n", [LoadedVolcanoes]),
     VolcanoesEruptedSince2000 = erupted_since(LoadedVolcanoes, 1500),
     io:format("Volcanoes erupted since 2000: ~p~n", [VolcanoesEruptedSince2000]),
     TotalElevation = total_elevation(LoadedVolcanoes),
-    io:format("Total elevation of all volcanoes: ~p~n", [TotalElevation]).
+    io:format("Total elevation of all volcanoes: ~p~n", [TotalElevation]),
+    SortedVolcanoes = sort_by_elevation(LoadedVolcanoes),
+    io:format("Sorted Volcanoes by Elevation: ~p~n", [SortedVolcanoes]).
