@@ -1,7 +1,7 @@
 -module(volcano).
 -export([main/0]).
-% -export([new_volcano/4, name/1, elevation/1, last_eruption/1, hazard/1]).
-% -export([load_volcanoes/1, sort_by_elevation/1, erupted_since/2, total_elevation/1]).
+-export([new_volcano/4, name/1, elevation/1, last_eruption/1, hazard/1]).
+-export([load_volcanoes/1, sort_by_elevation/1, erupted_since/2, total_elevation/1]).
 
 new_volcano(Name, Elevation, LastEruption, Hazard) ->
     {volcano, Name, Elevation, LastEruption, Hazard}.
@@ -75,8 +75,8 @@ sort_by_elevation([Volcano | Rest]) ->
 main()->
     LoadedVolcanoes = load_volcanoes("hw5_data.csv"),
     io:format("Loaded Volcanoes: ~p~n", [LoadedVolcanoes]),
-    VolcanoesEruptedSince2000 = erupted_since(LoadedVolcanoes, 1500),
-    io:format("Volcanoes erupted since 2000: ~p~n", [VolcanoesEruptedSince2000]),
+    VolcanoesEruptedSince1500 = erupted_since(LoadedVolcanoes, 1500),
+    io:format("Volcanoes erupted since 1500: ~p~n", [VolcanoesEruptedSince1500]),
     TotalElevation = total_elevation(LoadedVolcanoes),
     io:format("Total elevation of all volcanoes: ~p~n", [TotalElevation]),
     SortedVolcanoes = sort_by_elevation(LoadedVolcanoes),
