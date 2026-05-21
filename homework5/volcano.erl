@@ -3,8 +3,8 @@
 % -export([new_volcano/4, name/1, elevation/1, last_eruption/1, hazard/1]).
 % -export([load_volcanoes/1, sort_by_elevation/1, erupted_since/2, total_elevation/1]).
 
-new_volcano(Binary, Elevation, LastEruption, Hazard) ->
-    {volcano, Binary, Elevation, LastEruption, Hazard}.
+new_volcano(Name, Elevation, LastEruption, Hazard) ->
+    {volcano, Name, Elevation, LastEruption, Hazard}.
 
 name({volcano, Name, _, _, _}) ->
     Name.
@@ -39,9 +39,26 @@ load_volcanoes(File) ->
     Lines = binary:split(Data, <<"\n">>, [global]),
     loader_loop(Lines, []).
 
+erupted_since([], _Year, List) -> List;
+erupted_since([Volcano | Rest], Year, List) ->
+    case last_eruption(Volcano) >= Year of
+        true -> erupted_since(Rest, Year, [Volcano | List]);
+        false -> erupted_since(Rest, Year, List)
+    end.
+
 erupted_since(Volcanoes, Year) ->
-    
+    erupted_since(Volcanoes, Year, []).
+
+total_elevation([], Sum) -> Sum;
+total_elevation([Volcano | Rest], Sum) ->
+    total_elevation(Rest, Sum + elevation(Volcano)).
+total_elevation(Volcanoes) ->
+    total_elevation(Volcanoes, 0).
 
 main()->
     LoadedVolcanoes = load_volcanoes("hw5_data.csv"),
-    io:format("Loaded Volcanoes: ~p~n", [LoadedVolcanoes]).
+    io:format("Loaded Volcanoes: ~p~n", [LoadedVolcanoes]),
+    VolcanoesEruptedSince2000 = erupted_since(LoadedVolcanoes, 1500),
+    io:format("Volcanoes erupted since 2000: ~p~n", [VolcanoesEruptedSince2000]),
+    TotalElevation = total_elevation(LoadedVolcanoes),
+    io:format("Total elevation of all volcanoes: ~p~n", [TotalElevation]).
