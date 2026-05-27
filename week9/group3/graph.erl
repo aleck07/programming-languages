@@ -24,7 +24,8 @@ add_node(G, N) ->
 %% Both endpoints must already exist in the graph.
 %% Duplicate edges are not added.
 add_edge(G, A, B) ->
-    add_neighbor(G, A, B).
+    G0 = add_neighbor(G, A, B),
+    add_neighbor(G0, B, A).
 
 add_neighbor([], _N, _Neighbor) ->
     [];
@@ -68,7 +69,7 @@ node_count(G) ->
 %% Count undirected edges. Each edge is stored on both endpoints,
 %% so the raw sum of neighbor-list lengths is twice the edge count.
 edge_count(G) ->
-    sum_degrees(G).
+    sum_degrees(G) / 2.
 
 sum_degrees([]) ->
     0;

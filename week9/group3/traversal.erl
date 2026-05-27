@@ -15,7 +15,7 @@ bfs_loop(G, [N | Rest], Visited) ->
             bfs_loop(G, Rest, Visited);
         false ->
             Ns = graph:neighbors(G, N),
-            bfs_loop(G, Ns ++ Rest, [N | Visited])
+            bfs_loop(G, Rest ++ Ns, [N | Visited])
     end.
 
 %% Depth-first traversal starting at Start.
@@ -58,7 +58,9 @@ sp_loop(G, [[N | _] = Path | RestPaths], Visited, To) ->
 %% List of connected components. Each component is a list of nodes.
 %% Every node in the graph appears in exactly one component.
 connected_components(G) ->
-    cc_loop(G, [N || N <- graph:nodes(G), graph:neighbors(G, N) =/= []], []).
+    cc_loop(G, graph:nodes(G), []).
+    %% OR
+    % cc_loop(G, [N || N <- graph:nodes(G), graph:has_node(G, N)], []).
 
 cc_loop(_G, [], Components) ->
     lists:reverse(Components);

@@ -1,0 +1,29 @@
+Nodes: [a,b,c,d,e,f,g,h,i]
+Node count: 9
+Edge count: 7.0
+
+Neighbors of a: [b,c]
+Neighbors of d: [b,c,e,f]
+Neighbors of i: []
+
+has_edge(a, b): true
+has_edge(b, a): true
+has_edge(a, e): false
+has_edge(d, g): false
+
+BFS from a: [a,b,d,c,e,f]
+BFS from f: [f,d,b,a,c,e]
+BFS from i: [i]
+DFS from a: [a,b,d,c,e,f]
+
+Shortest path a -> e: [a,b,d,e]
+Shortest path a -> f: [a,b,d,f]
+Shortest path a -> g: no_path
+Shortest path i -> a: no_path
+
+Connected components: [[a,b,c,d,e,f],[g,h]]
+Component count: 2
+
+Reachable from a: [a,b,c,d,e,f]
+Reachable from g: [g,h]
+Reachable from i: [i]
