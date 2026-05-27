@@ -12,6 +12,6 @@ eval({op, Op, L, R}) ->
     apply_op(Op, eval(L), eval(R)).
 
 apply_op('+', A, B) -> A + B;
-apply_op('-', A, B) -> B - A;
+apply_op('-', A, B) -> A - B; %% was B - A
 apply_op('*', A, B) -> A * B;
 apply_op('/', A, B) -> A div B.

@@ -27,7 +27,8 @@ parse_expr_rest(L, ['+' | T]) ->
     {R, T1} = parse_term(T),
     parse_expr_rest({op, '+', L, R}, T1);
 parse_expr_rest(L, ['-' | T]) ->
-    {R, T1} = parse_expr(T),
+    % {R, T1} = parse_expr(T), old code
+    {R, T1} = parse_term(T),
     parse_expr_rest({op, '-', L, R}, T1);
 parse_expr_rest(L, T) ->
     {L, T}.
@@ -41,7 +42,8 @@ parse_term_rest(L, ['*' | T]) ->
     {R, T1} = parse_unary(T),
     parse_term_rest({op, '*', L, R}, T1);
 parse_term_rest(L, ['/' | T]) ->
-    {R, T1} = parse_term(T),
+    % {R, T1} = parse_term(T), old code
+    {R, T1} = parse_unary(T),
     parse_term_rest({op, '/', L, R}, T1);
 parse_term_rest(L, T) ->
     {L, T}.
@@ -49,7 +51,8 @@ parse_term_rest(L, T) ->
 %% unary := '-' unary | primary
 parse_unary(['-' | T]) ->
     {E, T1} = parse_unary(T),
-    {{op, '-', E, {num, 0}}, T1};
+    % {{op, '-', E, {num, 0}}, T1};
+    {{neg, E}, T1}; % new fix
 parse_unary(T) ->
     parse_primary(T).
 
