@@ -69,7 +69,7 @@ node_count(G) ->
 %% Count undirected edges. Each edge is stored on both endpoints,
 %% so the raw sum of neighbor-list lengths is twice the edge count.
 edge_count(G) ->
-    sum_degrees(G) / 2.
+    sum_degrees(G) div 2.
 
 sum_degrees([]) ->
     0;
