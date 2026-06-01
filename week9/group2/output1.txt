@@ -1,0 +1,47 @@
+Tokens (41 total):
+  ["the","cat","sat","on","the","mat","a","high","energy","dog","saw","the",
+   "cat","the","cat","ran","from","the","long","haired","dog","the","dog",
+   "was","fast","but","the","cat","was","faster","anna","saw","the","high",
+   "end","racecar","and","the","upper","level","rotator"]
+
+Word frequencies:
+  the: 9
+  cat: 4
+  sat: 1
+  on: 1
+  mat: 1
+  a: 1
+  high: 2
+  energy: 1
+  dog: 3
+  saw: 2
+  ran: 1
+  from: 1
+  long: 1
+  haired: 1
+  was: 2
+  fast: 1
+  but: 1
+  faster: 1
+  anna: 1
+  end: 1
+  racecar: 1
+  and: 1
+  upper: 1
+  level: 1
+  rotator: 1
+Total token count (via freq table): 66
+
+Longest word: rotator
+
+Palindromes: ["anna","racecar","level","rotator"]
+
+Top 3 most frequent:
+  the: 9
+  cat: 4
+  dog: 3
+
+3 least frequent:
+  sat: 1
+  on: 1
+  mat: 1

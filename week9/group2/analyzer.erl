@@ -12,7 +12,7 @@ count([], Acc) ->
 count([W | Rest], Acc) ->
     case lookup(W, Acc) of
         {ok, N}   -> count(Rest, bump(W, N + 1, Acc));
-        not_found -> count(Rest, [{W, 2} | Acc])
+        not_found -> count(Rest, [{W, 1} | Acc]) % Had {W, 2}
     end.
 
 lookup(_W, []) ->
@@ -37,7 +37,7 @@ longest_word([W | Rest]) ->
 longest([], Best) ->
     Best;
 longest([W | Rest], Best) ->
-    case length(W) >= length(Best) of
+    case length(W) > length(Best) of % had >=
         true  -> longest(Rest, W);
         false -> longest(Rest, Best)
     end.

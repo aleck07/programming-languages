@@ -22,7 +22,7 @@ strip_punctuation([]) ->
     [];
 strip_punctuation([C | Rest]) ->
     case is_punctuation(C) of
-        true  -> strip_punctuation(Rest);
+        true  -> [$\s | strip_punctuation(Rest)]; %% didn't have " ".
         false -> [C | strip_punctuation(Rest)]
     end.
 

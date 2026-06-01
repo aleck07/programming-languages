@@ -33,7 +33,7 @@ start() ->
 print_pairs([]) ->
     ok;
 print_pairs([{W, N} | Rest]) ->
-    io:format("  ~s: ~p~n", [W, N - 1]),
+    io:format("  ~s: ~p~n", [W, N]), % had N - 1
     print_pairs(Rest).
 
 sum_counts([]) -> 0;
