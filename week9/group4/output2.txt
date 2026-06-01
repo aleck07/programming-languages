@@ -1,0 +1,24 @@
+Initial state:
+  Balances:
+    carol: $50
+    bob: $200
+    alice: $100
+  Total assets: $350
+
+Applying transactions:
+  transfer alice -> bob: $30
+  transfer bob -> carol: $50
+  transfer alice -> carol: $200
+  transfer carol -> alice: $25
+
+Final state:
+  Balances:
+    bob: $180
+    alice: $70
+    carol: $100
+  Total assets: $350
+
+Direct balance queries:
+  alice: $70
+  bob:   $180
+  carol: $100

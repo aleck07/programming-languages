@@ -31,11 +31,11 @@ transfer(Ledger, FromName, ToName, Amount) ->
                 not_found ->
                     {error, {no_such_account, ToName}};
                 To ->
-                    case account:withdraw(To, Amount) of
+                    case account:withdraw(From, Amount) of
                         {error, R} ->
                             {error, R};
                         {ok, To1} ->
-                            From1 = account:deposit(From, Amount),
+                            From1 = account:deposit(To, Amount),
                             L1 = replace(Ledger, FromName, From1),
                             L2 = replace(L1, ToName, To1),
                             {ok, L2}
@@ -47,7 +47,7 @@ replace([], _Name, _New) ->
     [];
 replace([A | Rest], Name, New) ->
     case account:name(A) =:= Name of
-        true  -> [A | Rest];
+        true  -> [New | Rest]; % had [ A | Rest ]
         false -> [A | replace(Rest, Name, New)]
     end.
 
@@ -59,7 +59,7 @@ apply_all(Ledger, []) ->
 apply_all(Ledger, [{transfer, F, T, A} | Rest]) ->
     case transfer(Ledger, F, T, A) of
         {ok, L1}    -> apply_all(L1, Rest);
-        {error, _R} -> Ledger
+        {error, _R} -> apply_all(Ledger, Rest) %% had Ledger
     end.
 
 balance(Ledger, Name) ->

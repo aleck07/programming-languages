@@ -23,5 +23,5 @@ deposit({account, Name, B}, Amount) when Amount >= 0 ->
 withdraw({account, Name, B}, Amount) when Amount >= 0 ->
     case B >= Amount of
         true  -> {ok, {account, Name, B - Amount}};
-        false -> {ok, {account, Name, B}}
+        false -> {error, insufficient_funds} % had some {ok, blah blah blah}
     end.
