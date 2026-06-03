@@ -82,7 +82,7 @@ mark_shipped(Order, Allocations) ->
 %% Shipped orders are terminal and may not be cancelled.
 %% Cancelled orders may not be cancelled again.
 cancel(Order) ->
-    Cancellable = [pending, paid, shipped],
+    Cancellable = [pending, paid],
     case lists:member(state(Order), Cancellable) of
         true  -> {ok, set_state(Order, cancelled)};
         false -> {error, {cannot_cancel, state(Order)}}

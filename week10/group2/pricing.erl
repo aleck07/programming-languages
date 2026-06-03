@@ -16,7 +16,7 @@
 tax_rate_bps(Category) ->
     case Category of
         apparel    -> 800;
-        electronic -> 950;
+        electronics-> 950;
         books      -> 0;
         supplies   -> 600;
         _          -> 0
@@ -31,9 +31,9 @@ tax_rate_bps(Category) ->
 %% Boundaries are inclusive on the upper end: 500g ships at
 %% $4.99, not $7.99; 1500g at $7.99; and so on.
 
-shipping_cents(WeightG) when WeightG <  500  ->  499;
-shipping_cents(WeightG) when WeightG < 1500  ->  799;
-shipping_cents(WeightG) when WeightG < 5000  -> 1299;
+shipping_cents(WeightG) when WeightG =<  500  ->  499;
+shipping_cents(WeightG) when WeightG =< 1500  ->  799;
+shipping_cents(WeightG) when WeightG =< 5000  -> 1299;
 shipping_cents(_)                            -> 1999.
 
 %% Promo codes. Each code maps to a percentage discount in
@@ -46,7 +46,7 @@ shipping_cents(_)                            -> 1999.
 
 promo_pct_bps(Code) ->
     Promos = [{"SAVE10", 1000}, {"VIP20", 2000}],
-    case lists:keyfind(Code, 2, Promos) of
+    case lists:keyfind(Code, 1, Promos) of
         {_, Bps} -> Bps;
         false    -> 0
     end.

@@ -13,4 +13,4 @@ new(Id, Name, Email, Tier) ->
 id   ({customer, I, _, _, _}) -> I.
 name ({customer, _, N, _, _}) -> N.
 email({customer, _, _, E, _}) -> E.
-tier ({customer, _, _, T, _}) -> T.
+tier ({customer, _, _, _, T}) -> T.

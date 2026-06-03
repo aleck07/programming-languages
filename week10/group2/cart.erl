@@ -36,9 +36,9 @@ find_product([P | Rest], Sku) ->
     end.
 
 %% Per-line subtotal (in cents): unit price times quantity.
-line_subtotal_cents({Sku, _Qty}, Catalog) ->
+line_subtotal_cents({Sku, Qty}, Catalog) ->
     P = find_product(Catalog, Sku),
-    product:price_cents(P).
+    product:price_cents(P) * Qty.
 
 subtotal_cents({cart, _, Items, _}, Catalog) ->
     lists:sum([line_subtotal_cents(I, Catalog) || I <- Items]).
@@ -86,7 +86,7 @@ tier_discount_cents(Cart, Catalog) ->
 
 %% Combined discount (promo + tier).
 discount_cents(Cart, Catalog) ->
-    promo_discount_cents(Cart, Catalog).
+    promo_discount_cents(Cart, Catalog) + tier_discount_cents(Cart, Catalog).
 
 %% total_cents: subtotal - discount + tax + shipping.
 total_cents(Cart, Catalog) ->

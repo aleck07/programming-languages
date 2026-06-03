@@ -19,7 +19,7 @@ name({product, _, Name, _, _, _}) ->
 price_cents({product, _, _, P, _, _}) ->
     P.
 
-weight_g({product, _, _, W, _, _}) ->
+weight_g({product, _, _, _, W, _}) ->
     W.
 
 category({product, _, _, _, _, C}) ->
