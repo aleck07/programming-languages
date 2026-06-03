@@ -1,0 +1,125 @@
+== Catalog ==
+  widget  Widget    $  19.99    800g  electronics
+  gadget  Gadget    $  49.99   1500g  electronics
+  book    Book      $  12.99    500g  books
+  hat     Hat       $  24.99    200g  apparel
+  pen     Pen       $   1.99     50g  supplies
+
+== Customers ==
+  alice   Alice   alice@shop.com       silver
+  bob     Bob     bob@shop.com         bronze
+  carol   Carol   carol@shop.com       gold
+  dave    Dave    dave@shop.com        platinum
+  eve     Eve     eve@shop.com         bronze
+
+== Initial inventory ==
+  north:
+    widget  on_hand= 10 reserved=  0
+    gadget  on_hand=  5 reserved=  0
+    book    on_hand= 20 reserved=  0
+  south:
+    widget  on_hand=  3 reserved=  0
+    gadget  on_hand= 10 reserved=  0
+    hat     on_hand= 15 reserved=  0
+  east:
+    gadget  on_hand=  2 reserved=  0
+    hat     on_hand=  5 reserved=  0
+    book    on_hand=  8 reserved=  0
+    pen     on_hand= 50 reserved=  0
+  total stock per sku (on_hand+reserved across warehouses):
+    widget  13
+    gadget  17
+    book    28
+    hat     20
+    pen     50
+
+== Cart pricing ==
+  #1 (Alice, silver) promo=SAVE10
+    items:        2xwidget, 1xbook
+    subtotal:     $52.97
+    promo disc:   $5.29
+    tier disc:    $1.05
+    tax:          $3.79
+    shipping:     $12.99
+    total:        $63.41
+  #2 (Bob, bronze) promo=(none)
+    items:        6xgadget, 5xhat
+    subtotal:     $424.89
+    promo disc:   $0.00
+    tier disc:    $0.00
+    tax:          $38.48
+    shipping:     $19.99
+    total:        $483.36
+  #3 (Carol, gold) promo=(none)
+    items:        10xpen, 1xhat
+    subtotal:     $44.89
+    promo disc:   $0.00
+    tier disc:    $2.24
+    tax:          $3.18
+    shipping:     $7.99
+    total:        $53.82
+  #4 (Dave, platinum) promo=VIP20
+    items:        3xwidget, 20xgadget
+    subtotal:     $1059.77
+    promo disc:   $211.95
+    tier disc:    $105.97
+    tax:          $100.67
+    shipping:     $19.99
+    total:        $862.51
+  #5 (Eve, bronze) promo=(none)
+    items:        1xbook
+    subtotal:     $12.99
+    promo disc:   $0.00
+    tier disc:    $0.00
+    tax:          $0.00
+    shipping:     $4.99
+    total:        $17.98
+
+== Allocations (after fulfillment) ==
+  #1 (Alice): shipped
+    2 x widget from north
+    1 x book from north
+  #2 (Bob): shipped
+    5 x gadget from north
+    1 x gadget from south
+    5 x hat from south
+  #3 (Carol): shipped
+    10 x pen from east
+    1 x hat from south
+  #4 (Dave): paid (not shipped)
+  #5 (Eve): shipped
+    1 x book from north
+
+== Cancellation attempts ==
+  cancel #2 (Bob, was shipped): error {cannot_cancel,shipped}
+
+== Final inventory ==
+  north:
+    widget  on_hand=  8 reserved=  2
+    gadget  on_hand=  0 reserved=  5
+    book    on_hand= 18 reserved=  2
+  south:
+    widget  on_hand=  3 reserved=  0
+    gadget  on_hand=  9 reserved=  1
+    hat     on_hand=  9 reserved=  6
+  east:
+    gadget  on_hand=  2 reserved=  0
+    hat     on_hand=  5 reserved=  0
+    book    on_hand=  8 reserved=  0
+    pen     on_hand= 40 reserved= 10
+  total stock per sku (on_hand+reserved across warehouses):
+    widget  13
+    gadget  17
+    book    28
+    hat     20
+    pen     50
+
+== Final order states ==
+  #1 (Alice): shipped  total=$63.41
+  #2 (Bob): shipped  total=$483.36
+  #3 (Carol): shipped  total=$53.82
+  #4 (Dave): paid  total=$862.51
+  #5 (Eve): shipped  total=$17.98
+
+== Revenue (shipped orders only) ==
+  $618.57
